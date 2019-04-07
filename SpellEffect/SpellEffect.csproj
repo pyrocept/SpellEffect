@@ -198,30 +198,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="159.ico" />
-    <None Include="Resources\howToIopWrath.gif" />
-    <None Include="Resources\howToCopyDebugedRawData.gif" />
-    <None Include="Resources\sadida.png" />
-    <None Include="Resources\sacrieur.png" />
-    <None Include="Resources\roublard.png" />
-    <None Include="Resources\Rightarrow.png" />
-    <None Include="Resources\panda.png" />
-    <None Include="Resources\osa.png" />
-    <None Include="Resources\Leftarrow.png" />
-    <None Include="Resources\iop.png" />
-    <None Include="Resources\howToAddClientVersion.gif" />
-    <None Include="Resources\feca.png" />
-    <None Include="Resources\enutrof.png" />
-    <None Include="Resources\eniripsa.png" />
-    <None Include="Resources\Edit.png" />
-    <None Include="Resources\ecaflip.png" />
-    <None Include="Resources\del.png" />
-    <None Include="Resources\cra.png" />
-    <None Include="Resources\addNewClientVersionSprites.png" />
-    <None Include="Resources\159.ico" />
-    <None Include="Resources\zobal.png" />
-    <None Include="Resources\xelor.png" />
-    <None Include="Resources\steamer.png" />
-    <None Include="Resources\sram.png" />
+    <Resource Include="Resources\Rightarrow.png" />
+    <Resource Include="Resources\Leftarrow.png" />
+    <Resource Include="Resources\Edit.png" />
+    <Resource Include="Resources\del.png" />
+    <Resource Include="Resources\addNewClientVersionSprites.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

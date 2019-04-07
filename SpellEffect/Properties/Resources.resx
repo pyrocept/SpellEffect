@@ -121,73 +121,16 @@
   <data name="addNewClientVersionSprites" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\addNewClientVersionSprites.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="cra" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\cra.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="del" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\del.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ecaflip" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ecaflip.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Edit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="eniripsa" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\eniripsa.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="enutrof" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\enutrof.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="feca" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\feca.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="howToAddClientVersion" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\howToAddClientVersion.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="iop" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\iop.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Leftarrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Leftarrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="osa" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\osa.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="panda" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\panda.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="Rightarrow" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Rightarrow.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="roublard" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\roublard.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="sacrieur" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sacrieur.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="sadida" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sadida.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="sram" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sram.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="steamer" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\steamer.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="xelor" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\xelor.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="zobal" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\zobal.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="_159" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\159.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="howToCopyDebugedRawData" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\howToCopyDebugedRawData.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="howToIopWrath" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\howToIopWrath.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
