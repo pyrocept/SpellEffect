@@ -149,7 +149,7 @@ namespace SpellEffect
             if(value.GetType() == typeof(Byte[]) && (columnName[e.ColumnIndex] == "EffectsBin" || columnName[e.ColumnIndex] == "CriticalEffectsBin" || columnName[e.ColumnIndex] == "Effects" || columnName[e.ColumnIndex] == "CriticalEffect" || columnName[e.ColumnIndex] == "CriticalEffects" || columnName[e.ColumnIndex] == "Effect"))
             {
                 this.Hide();
-                EffectBin effectBin = new EffectBin(value as Byte[], mysqlCon, Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString()), columnName[e.ColumnIndex]);
+                EffectBin effectBin = new EffectBin(value as byte[], mysqlCon, Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString()), columnName[e.ColumnIndex]);
                 effectBin.FormClosed += EffectBin_FormClosed;
                 effectBin.Show();
             }
@@ -193,95 +193,11 @@ namespace SpellEffect
             }
         }
 
-        private void sortID_TextChanged(object sender, EventArgs e)
-        {
-            int spellId;
-            if (int.TryParse(sortID.Text, out spellId))
-            {
-                string zippath = "clientVersion\\" + Form1.clientVersion + ".zip";
-
-                using (ZipFile zip = ZipFile.Read(zippath))
-                {
-                    bool found = false;
-                    foreach (ZipEntry e1 in zip)
-                    {
-                        if (e1.FileName == spellId + ".png")
-                        {
-                            CrcCalculatorStream reader = e1.OpenReader();
-                            MemoryStream memstream = new MemoryStream();
-                            reader.CopyTo(memstream);
-                            byte[] bytes = memstream.ToArray();
-                            SpellPicture.Image = Image.FromStream(memstream);
-                            found = true;
-                            SpellPicture.Visible = true;
-                            break;
-                        }
-                    }
-                    if (!found)
-                        SpellPicture.Visible = false;
-                }
-            }
-            else
-            {
-                SpellPicture.Image = null;
-            }
-        }
-
-        private void chooseSpell_Click(object sender, EventArgs e)
-        {
-            if (Form1.clientVersion == "2.10")
-            {
-                SelectSpellFromClasses ssfc = new SelectSpellFromClasses();
-                ssfc.Show();
-                this.Enabled = false;
-                ssfc.FormClosed += Ssfc_FormClosed;
-            }
-            else
-            {
-                DialogResult dr = MessageBox.Show("Seul les sorts de la version 2.10 (par defaut) sont affichés dans ce pannel.\nPar contre si vous tapez l'id de sort directement, le sort s'affiche correctement selon la version séléctionné.\nVous voulez comme même afficher le panel des sorts 2.10 ?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if(dr == DialogResult.Yes)
-                {
-                    SelectSpellFromClasses ssfc = new SelectSpellFromClasses();
-                    ssfc.Show();
-                    this.Enabled = false;
-                    ssfc.FormClosed += Ssfc_FormClosed;
-                }
-            }
-        }
-
-        private void Ssfc_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            SelectSpellFromClasses ssfc = sender as SelectSpellFromClasses;
-            int selectedSpell = (int)ssfc.Tag;
-            this.Enabled = true;
-            if (selectedSpell != -1)
-            {
-                sortID.Text = selectedSpell.ToString();
-                spellLevelL.Text = "";
-                editSpell_Click(null, null);
-            }
-        }
-
-        private void tuto1_Click(object sender, EventArgs e)
-        {
-            howTo hta = new howTo("debugSpell");
-            hta.Show();
-            this.Enabled = false;
-            hta.FormClosed += Hta_FormClosed;
-        }
-
         private void Hta_FormClosed(object sender, FormClosedEventArgs e)
         {
             this.Enabled = true;
         }
 
-        private void tuto2_Click(object sender, EventArgs e)
-        {
-            howTo hta = new howTo("howToCopyDebugedRawData");
-            hta.Show();
-            this.Enabled = false;
-            hta.FormClosed += Hta_FormClosed;
-        }
 
         private void Ht_FormClosed(object sender, FormClosedEventArgs e)
         {

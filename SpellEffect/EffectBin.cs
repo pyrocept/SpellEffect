@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using SpellEffect.EffectInstances;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +15,7 @@ namespace SpellEffect
 {
     public partial class EffectBin : Form
     {
-        List<EffectData> effectDataList = new List<EffectData>();
+        List<EffectBase> effectDataList = new List<EffectBase>();
         static bool EffectBinLoaded = false;
         byte[] buffer;
         MySqlConn mysqlCon;
@@ -36,19 +37,12 @@ namespace SpellEffect
             effectBinType = _effectBinType;
             EffectBinLoaded = false;
             InitializeComponent();
-            DeserializeEffects();
+            EffectBinHex.Text = BitConverter.ToString(buffer).Replace("-", string.Empty);
+            effectDataList = EffectManager.DeserializeEffects(buffer);
+            AddTabControl();
             description.Text = "";
         }
 
-        public void DeserializeEffects()
-        {
-            int num = 0;
-            effectDataList.Clear();
-            while (num + 1 < buffer.Length)
-                effectDataList.Add(DeserializeEffect(ref num));
-
-            AddTabControl();
-        }
 
         public void AddTabControl()
         {
@@ -65,6 +59,7 @@ namespace SpellEffect
 
                 for (int cnt = 0; cnt < effectDataList.Count; cnt++)
                 {
+                    #region Designer wtf
                     // 
                     // tabPage
                     // 
@@ -131,7 +126,7 @@ namespace SpellEffect
                     EffectBaseTB.Size = new System.Drawing.Size(80, 20);
                     EffectBaseTB.TabIndex = 1;
                     EffectBaseTB.Enabled = false;
-                    EffectBaseTB.Text = effectDataList[cnt].effectBase;
+                    EffectBaseTB.Text = effectDataList[cnt].GetType().ToString();
                     tabPage1.Controls.Add(EffectBaseTB);
 
                     // TargetLabel
@@ -152,7 +147,7 @@ namespace SpellEffect
                     TargetTB.Name = "TargetTB";
                     TargetTB.Size = new System.Drawing.Size(100, 20);
                     TargetTB.TabIndex = 5;
-                    TargetTB.Text = effectDataList[cnt].targets.ToString();
+                    TargetTB.Text = string.Join(",", effectDataList[cnt].Targets);
                     TargetTB.Enabled = false;
                     tabPage1.Controls.Add(TargetTB);
 
@@ -190,7 +185,7 @@ namespace SpellEffect
                     IdTB.Size = new System.Drawing.Size(38, 20);
                     IdTB.TabIndex = 5;
                     IdTB.Enabled = false;
-                    IdTB.Text = effectDataList[cnt].id.ToString();
+                    IdTB.Text = effectDataList[cnt].Id.ToString();
                     tabPage1.Controls.Add(IdTB);
 
                     // IdCB
@@ -208,9 +203,8 @@ namespace SpellEffect
 
                     string[] effectsEnum = Enum.GetNames(typeof(EffectsEnum));
                     IdCB.Items.AddRange(effectsEnum);
-                    EffectsEnum ee = (EffectsEnum)effectDataList[cnt].id;
                     EffectBinLoaded = false;
-                    IdCB.SelectedIndex = effectsEnum.ToList().IndexOf(((EffectsEnum)effectDataList[cnt].id).ToString());
+                    IdCB.SelectedIndex = effectsEnum.ToList().IndexOf(((EffectsEnum)effectDataList[cnt].Id).ToString());
                     EffectBinLoaded = true;
                     tabPage1.Controls.Add(IdCB);
 
@@ -232,7 +226,7 @@ namespace SpellEffect
                     DurationTB.Name = "DurationTB";
                     DurationTB.Size = new System.Drawing.Size(38, 20);
                     DurationTB.TabIndex = 7;
-                    DurationTB.Text = effectDataList[cnt].duration.ToString();
+                    DurationTB.Text = effectDataList[cnt].Duration.ToString();
                     tabPage1.Controls.Add(DurationTB);
 
                     // DelayLabel
@@ -253,7 +247,7 @@ namespace SpellEffect
                     DelayTB.Name = "DelayTB";
                     DelayTB.Size = new System.Drawing.Size(38, 20);
                     DelayTB.TabIndex = 9;
-                    DelayTB.Text = effectDataList[cnt].delay.ToString();
+                    DelayTB.Text = effectDataList[cnt].Delay.ToString();
                     tabPage1.Controls.Add(DelayTB);
 
                     // RandomLabel
@@ -274,7 +268,7 @@ namespace SpellEffect
                     RandomTB.Name = "RandomTB";
                     RandomTB.Size = new System.Drawing.Size(38, 20);
                     RandomTB.TabIndex = 11;
-                    RandomTB.Text = effectDataList[cnt].random.ToString();
+                    RandomTB.Text = effectDataList[cnt].Random.ToString();
                     tabPage1.Controls.Add(RandomTB);
 
                     // GroupLabel
@@ -295,7 +289,7 @@ namespace SpellEffect
                     GroupTB.Name = "GroupTB";
                     GroupTB.Size = new System.Drawing.Size(38, 20);
                     GroupTB.TabIndex = 13;
-                    GroupTB.Text = effectDataList[cnt].group.ToString();
+                    GroupTB.Text = effectDataList[cnt].Group.ToString();
                     tabPage1.Controls.Add(GroupTB);
 
                     // ModificatorLabel
@@ -316,7 +310,7 @@ namespace SpellEffect
                     ModificatorTB.Name = "ModificatorTB";
                     ModificatorTB.Size = new System.Drawing.Size(38, 20);
                     ModificatorTB.TabIndex = 15;
-                    ModificatorTB.Text = effectDataList[cnt].modificator.ToString();
+                    ModificatorTB.Text = effectDataList[cnt].Modificator.ToString();
                     tabPage1.Controls.Add(ModificatorTB);
 
                     //////////////////////////////////// 2eme colone ////////////////////////////
@@ -338,7 +332,7 @@ namespace SpellEffect
                     TriggerTB.Name = "TriggerTB";
                     TriggerTB.Size = new System.Drawing.Size(47, 20);
                     TriggerTB.TabIndex = 1;
-                    TriggerTB.Text = effectDataList[cnt].trigger.ToString();
+                    TriggerTB.Text = effectDataList[cnt].Trigger.ToString();
                     tabPage1.Controls.Add(TriggerTB);
 
                     // HiddenLabel
@@ -359,7 +353,7 @@ namespace SpellEffect
                     HiddenTB.Name = "HiddenTB";
                     HiddenTB.Size = new System.Drawing.Size(47, 20);
                     HiddenTB.TabIndex = 3;
-                    HiddenTB.Text = effectDataList[cnt].hidden.ToString();
+                    HiddenTB.Text = effectDataList[cnt].Hidden.ToString();
                     tabPage1.Controls.Add(HiddenTB);
 
                     // ZoneShapeLabel
@@ -382,10 +376,10 @@ namespace SpellEffect
                     ZoneShapeCB.Size = new System.Drawing.Size(60, 20);
                     ZoneShapeCB.TabIndex = 5;
                     ZoneShapeCB.DropDownStyle = ComboBoxStyle.DropDownList;
-
+                    #endregion
                     string[] spellShapeEnum = Enum.GetNames(typeof(SpellShapeEnum));
                     ZoneShapeCB.Items.AddRange(spellShapeEnum);
-                    ZoneShapeCB.SelectedIndex = spellShapeEnum.ToList().IndexOf(effectDataList[cnt].zoneShape.ToString());
+                    ZoneShapeCB.SelectedIndex = spellShapeEnum.ToList().IndexOf(effectDataList[cnt].ZoneShape.ToString());
 
                     tabPage1.Controls.Add(ZoneShapeCB);
 
@@ -408,7 +402,7 @@ namespace SpellEffect
                     ZoneSizeTB.Name = "ZoneSizeTB";
                     ZoneSizeTB.Size = new System.Drawing.Size(33, 20);
                     ZoneSizeTB.TabIndex = 7;
-                    ZoneSizeTB.Text = effectDataList[cnt].zoneSize.ToString();
+                    ZoneSizeTB.Text = effectDataList[cnt].ZoneSize.ToString();
                     tabPage1.Controls.Add(ZoneSizeTB);
 
                     // ZoneMinSizeLabel
@@ -429,7 +423,7 @@ namespace SpellEffect
                     ZoneMinSizeTB.Name = "ZoneMinSizeTB";
                     ZoneMinSizeTB.Size = new System.Drawing.Size(33, 20);
                     ZoneMinSizeTB.TabIndex = 9;
-                    ZoneMinSizeTB.Text = effectDataList[cnt].zoneMinSize.ToString();
+                    ZoneMinSizeTB.Text = effectDataList[cnt].ZoneMinSize.ToString();
                     tabPage1.Controls.Add(ZoneMinSizeTB);
 
                     // ValueLabel
@@ -450,7 +444,11 @@ namespace SpellEffect
                     ValueTB.Name = "ValueTB";
                     ValueTB.Size = new System.Drawing.Size(33, 20);
                     ValueTB.TabIndex = 11;
-                    ValueTB.Text = effectDataList[cnt].value.ToString();
+                    if (effectDataList[cnt] is EffectInteger)
+                    {
+
+                        ValueTB.Text = (effectDataList[cnt] as EffectInteger).Value.ToString();
+                    }
                     tabPage1.Controls.Add(ValueTB);
 
                     // DicenumLabel
@@ -471,7 +469,10 @@ namespace SpellEffect
                     DicenumTB.Name = "DicenumTB";
                     DicenumTB.Size = new System.Drawing.Size(33, 20);
                     DicenumTB.TabIndex = 13;
-                    DicenumTB.Text = effectDataList[cnt].dicenum.ToString();
+                    if (effectDataList[cnt] is EffectDice)
+                    {
+                        DicenumTB.Text = (effectDataList[cnt] as EffectDice).DiceNum.ToString();
+                    }
                     tabPage1.Controls.Add(DicenumTB);
 
                     // DicefaceLabel
@@ -492,7 +493,10 @@ namespace SpellEffect
                     DicefaceTB.Name = "DicefaceTB";
                     DicefaceTB.Size = new System.Drawing.Size(33, 20);
                     DicefaceTB.TabIndex = 15;
-                    DicefaceTB.Text = effectDataList[cnt].diceface.ToString();
+                    if (effectDataList[cnt] is EffectDice)
+                    {
+                        DicefaceTB.Text = (effectDataList[cnt] as EffectDice).DiceFace.ToString();
+                    }
                     tabPage1.Controls.Add(DicefaceTB);
 
                     tabControl.Controls.Add(tabPage1);
@@ -540,7 +544,7 @@ namespace SpellEffect
 
             if (EffectTabControl.TabPages.Count - 1 > 0 && EffectTabControl.SelectedIndex > 0 && EffectTabControl.SelectedTab.Text != "Add New Effect")
             {
-                EffectData currentEffectData = effectDataList[index];
+                EffectBase currentEffectData = effectDataList[index];
                 effectDataList.RemoveAt(index);
                 effectDataList.Insert(index - 1, currentEffectData);
                 AddTabControl();
@@ -556,7 +560,7 @@ namespace SpellEffect
 
             if (EffectTabControl.TabPages.Count - 1 > 0 && EffectTabControl.SelectedIndex < EffectTabControl.TabPages.Count - 1 && EffectTabControl.SelectedTab.Text != "Add New Effect")
             {
-                EffectData currentEffectData = effectDataList[index];
+                var currentEffectData = effectDataList[index];
                 effectDataList.RemoveAt(index);
                 effectDataList.Insert(index + 1, currentEffectData);
                 AddTabControl();
@@ -595,52 +599,21 @@ namespace SpellEffect
             EffectPage.Controls.RemoveByKey("AddNewEffecrBtn");
 
             EffectPage.Text = "Effect " + (EffectTabControl.TabPages.Count - 1);
-            
-            EffectData effectData = new EffectData();
-            effectData.delay = 0;
-            effectData.diceface = 0;
-            effectData.dicenum = 0;
-            effectData.duration = 0;
-            effectData.effectBase = "EffectDice";
-            effectData.group = 0;
-            effectData.full_HexByte = "";
-            effectData.full_buffer = null;
-            effectData.hidden = false;
-            effectData.id = (int)EffectsEnum.Effect_DamageEarth;
-            effectData.Id_row = effectDataList[0].Id_row;
-            effectData.index = EffectTabControl.TabPages.Count - 1;
-            effectData.modificator = 0;
-            effectData.random = 0;
-            effectData.rawZone = "";
-            effectData.targets = SpellTargetType.NONE;
-            effectData.trigger = false;
-            effectData.value = 0;
-            effectData.zoneMinSize = 0;
-            effectData.zoneShape = SpellShapeEnum.P;
-            effectData.zoneSize = 0;
+
+            EffectDice effectData = new EffectDice(EffectsEnum.Effect_DamageEarth, 0, 0, 0);
+            effectData.Delay = 0;
+            effectData.Duration = 0;
+            effectData.Group = 0;
+            effectData.Hidden = false;
+            effectData.Modificator = 0;
+            effectData.Random = 0;
+            effectData.Trigger = false;
+            effectData.Value = 0;
+            effectData.ZoneMinSize = 0;
+            effectData.ZoneShape = SpellShapeEnum.P;
+            effectData.ZoneSize = 0;
             //////////////////////////////////////////////////////////////////////
 
-            BigEndianWriter ber2 = new BigEndianWriter(new System.IO.MemoryStream());
-            ber2.WriteByte((byte)4);
-            ber2.WriteInt((int)effectData.targets);
-            ber2.WriteShort(effectData.id);
-            ber2.WriteInt(effectData.duration);
-            ber2.WriteInt(effectData.delay);
-            ber2.WriteInt(effectData.random);
-            ber2.WriteInt(effectData.group);
-            ber2.WriteInt(effectData.modificator);
-            ber2.WriteBoolean(effectData.trigger);
-            ber2.WriteBoolean(effectData.hidden);
-            ber2.WriteUTF(string.Empty);
-            ber2.WriteShort(effectData.value);
-            ber2.WriteShort(effectData.dicenum);
-            ber2.WriteShort(effectData.diceface);
-
-            byte[] result = ((System.IO.MemoryStream)ber2.BaseStream).ToArray();
-            
-            effectData.full_buffer = result;
-            string trimResult = BitConverter.ToString(result).Replace("-", string.Empty);
-            effectData.full_HexByte = trimResult;
 
             effectDataList.Add(effectData);
 
@@ -681,7 +654,7 @@ namespace SpellEffect
             EffectBaseTB.Size = new System.Drawing.Size(80, 20);
             EffectBaseTB.TabIndex = 1;
             EffectBaseTB.Enabled = false;
-            EffectBaseTB.Text = effectData.effectBase;
+            EffectBaseTB.Text = effectData.GetType().ToString();
             EffectPage.Controls.Add(EffectBaseTB);
 
             // TargetLabel
@@ -702,7 +675,7 @@ namespace SpellEffect
             TargetTB.Name = "TargetTB";
             TargetTB.Size = new System.Drawing.Size(100, 20);
             TargetTB.TabIndex = 5;
-            TargetTB.Text = effectData.targets.ToString();
+            TargetTB.Text = string.Join(",", effectData.Targets);
             TargetTB.Enabled = false;
             EffectPage.Controls.Add(TargetTB);
 
@@ -740,7 +713,7 @@ namespace SpellEffect
             IdTB.Size = new System.Drawing.Size(38, 20);
             IdTB.TabIndex = 5;
             IdTB.Enabled = false;
-            IdTB.Text = effectData.id.ToString();
+            IdTB.Text = effectData.Id.ToString();
             EffectPage.Controls.Add(IdTB);
 
             // IdCB
@@ -758,7 +731,6 @@ namespace SpellEffect
 
             string[] effectsEnum = Enum.GetNames(typeof(EffectsEnum));
             IdCB.Items.AddRange(effectsEnum);
-            EffectsEnum ee = (EffectsEnum)effectData.id;
             EffectBinLoaded = false;
             IdCB.SelectedIndex = effectsEnum.ToList().IndexOf((EffectsEnum.Effect_DamageEarth).ToString());
             EffectBinLoaded = true;
@@ -782,7 +754,7 @@ namespace SpellEffect
             DurationTB.Name = "DurationTB";
             DurationTB.Size = new System.Drawing.Size(38, 20);
             DurationTB.TabIndex = 7;
-            DurationTB.Text = effectData.duration.ToString();
+            DurationTB.Text = effectData.Duration.ToString();
             EffectPage.Controls.Add(DurationTB);
 
             // DelayLabel
@@ -803,7 +775,7 @@ namespace SpellEffect
             DelayTB.Name = "DelayTB";
             DelayTB.Size = new System.Drawing.Size(38, 20);
             DelayTB.TabIndex = 9;
-            DelayTB.Text = effectData.delay.ToString();
+            DelayTB.Text = effectData.Delay.ToString();
             EffectPage.Controls.Add(DelayTB);
 
             // RandomLabel
@@ -824,7 +796,7 @@ namespace SpellEffect
             RandomTB.Name = "RandomTB";
             RandomTB.Size = new System.Drawing.Size(38, 20);
             RandomTB.TabIndex = 11;
-            RandomTB.Text = effectData.random.ToString();
+            RandomTB.Text = effectData.Random.ToString();
             EffectPage.Controls.Add(RandomTB);
 
             // GroupLabel
@@ -845,7 +817,7 @@ namespace SpellEffect
             GroupTB.Name = "GroupTB";
             GroupTB.Size = new System.Drawing.Size(38, 20);
             GroupTB.TabIndex = 13;
-            GroupTB.Text = effectData.group.ToString();
+            GroupTB.Text = effectData.Group.ToString();
             EffectPage.Controls.Add(GroupTB);
 
             // ModificatorLabel
@@ -866,7 +838,7 @@ namespace SpellEffect
             ModificatorTB.Name = "ModificatorTB";
             ModificatorTB.Size = new System.Drawing.Size(38, 20);
             ModificatorTB.TabIndex = 15;
-            ModificatorTB.Text = effectData.modificator.ToString();
+            ModificatorTB.Text = effectData.Modificator.ToString();
             EffectPage.Controls.Add(ModificatorTB);
 
             //////////////////////////////////// 2eme colone ////////////////////////////
@@ -888,7 +860,7 @@ namespace SpellEffect
             TriggerTB.Name = "TriggerTB";
             TriggerTB.Size = new System.Drawing.Size(47, 20);
             TriggerTB.TabIndex = 1;
-            TriggerTB.Text = effectData.trigger.ToString();
+            TriggerTB.Text = string.Join(",", effectData.Targets);
             EffectPage.Controls.Add(TriggerTB);
 
             // HiddenLabel
@@ -909,7 +881,7 @@ namespace SpellEffect
             HiddenTB.Name = "HiddenTB";
             HiddenTB.Size = new System.Drawing.Size(47, 20);
             HiddenTB.TabIndex = 3;
-            HiddenTB.Text = effectData.hidden.ToString();
+            HiddenTB.Text = effectData.Hidden.ToString();
             EffectPage.Controls.Add(HiddenTB);
 
             // ZoneShapeLabel
@@ -935,7 +907,7 @@ namespace SpellEffect
 
             string[] spellShapeEnum = Enum.GetNames(typeof(SpellShapeEnum));
             ZoneShapeCB.Items.AddRange(spellShapeEnum);
-            ZoneShapeCB.SelectedIndex = spellShapeEnum.ToList().IndexOf(effectData.zoneShape.ToString());
+            ZoneShapeCB.SelectedIndex = spellShapeEnum.ToList().IndexOf(effectData.ZoneShape.ToString());
 
             EffectPage.Controls.Add(ZoneShapeCB);
 
@@ -957,7 +929,7 @@ namespace SpellEffect
             ZoneSizeTB.Name = "ZoneSizeTB";
             ZoneSizeTB.Size = new System.Drawing.Size(33, 20);
             ZoneSizeTB.TabIndex = 7;
-            ZoneSizeTB.Text = effectData.zoneSize.ToString();
+            ZoneSizeTB.Text = effectData.ZoneSize.ToString();
             EffectPage.Controls.Add(ZoneSizeTB);
 
             // ZoneMinSizeLabel
@@ -978,7 +950,7 @@ namespace SpellEffect
             ZoneMinSizeTB.Name = "ZoneMinSizeTB";
             ZoneMinSizeTB.Size = new System.Drawing.Size(33, 20);
             ZoneMinSizeTB.TabIndex = 9;
-            ZoneMinSizeTB.Text = effectData.zoneMinSize.ToString();
+            ZoneMinSizeTB.Text = effectData.ZoneMinSize.ToString();
             EffectPage.Controls.Add(ZoneMinSizeTB);
 
             // ValueLabel
@@ -999,7 +971,7 @@ namespace SpellEffect
             ValueTB.Name = "ValueTB";
             ValueTB.Size = new System.Drawing.Size(33, 20);
             ValueTB.TabIndex = 11;
-            ValueTB.Text = effectData.value.ToString();
+            ValueTB.Text = effectData.Value.ToString();
             EffectPage.Controls.Add(ValueTB);
 
             // DicenumLabel
@@ -1020,7 +992,7 @@ namespace SpellEffect
             DicenumTB.Name = "DicenumTB";
             DicenumTB.Size = new System.Drawing.Size(33, 20);
             DicenumTB.TabIndex = 13;
-            DicenumTB.Text = effectData.dicenum.ToString();
+            DicenumTB.Text = effectData.DiceNum.ToString();
             EffectPage.Controls.Add(DicenumTB);
 
             // DicefaceLabel
@@ -1041,7 +1013,7 @@ namespace SpellEffect
             DicefaceTB.Name = "DicefaceTB";
             DicefaceTB.Size = new System.Drawing.Size(33, 20);
             DicefaceTB.TabIndex = 15;
-            DicefaceTB.Text = effectData.diceface.ToString();
+            DicefaceTB.Text = effectData.DiceFace.ToString();
             EffectPage.Controls.Add(DicefaceTB);
 
             /////////////////////////////
@@ -1108,13 +1080,13 @@ namespace SpellEffect
             TextBox _IdTB = IdTB[0] as TextBox;
             EffectsEnum ee = (EffectsEnum)Enum.Parse(typeof(EffectsEnum), cb.SelectedItem.ToString());
             _IdTB.Text = ((short)ee).ToString();
-            effectDataList[index].id = (short)ee;
+            effectDataList[index].Id = (short)ee;
         }
 
         private void TargetEditPB_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
-            EffectData effectdata = (sender as PictureBox).Tag as EffectData;
+            EffectBase effectdata = (sender as PictureBox).Tag as EffectBase;
             TargetEditor targetEditor = new TargetEditor(ref effectdata, mysqlCon);
             targetEditor.Show();
             targetEditor.FormClosed += TargetEditor_FormClosed;
@@ -1128,186 +1100,6 @@ namespace SpellEffect
             EffectBinLoaded = true;
         }
 
-        public EffectData DeserializeEffect(ref int index)
-        {
-            EffectBinHex.Text = BitConverter.ToString(buffer).Replace("-", string.Empty);
-
-            if (buffer.Length < index)
-                throw new System.Exception("Buffer too small to contain an Effect");
-
-            EffectData effectData = new EffectData();
-            effectData.index = index;
-            effectData.Id_row = Id_row;
-            effectData.full_buffer = buffer;
-            effectData.full_HexByte = EffectBinHex.Text;
-
-            byte b = buffer[index];
-            string effectBase;
-
-            switch (b)
-            {
-                case 1:
-                    effectBase = "EffectBase";
-                    break;
-                case 2:
-                    effectBase = "EffectCreature";
-                    break;
-                case 3:
-                    effectBase = "EffectDate";
-                    break;
-                case 4:
-                    effectBase = "EffectDice";
-                    break;
-                case 5:
-                    effectBase = "EffectDuration";
-                    break;
-                case 6:
-                    effectBase = "EffectInteger";
-                    break;
-                case 7:
-                    effectBase = "EffectLadder";
-                    break;
-                case 8:
-                    effectBase = "EffectMinMax";
-                    break;
-                case 9:
-                    effectBase = "EffectMount";
-                    break;
-                case 10:
-                    effectBase = "EffectString";
-                    break;
-                default:
-                    throw new System.Exception(string.Format("Incorrect identifier : {0}", b));
-            }
-            index++;
-            effectData.effectBase = effectBase;
-            System.IO.BinaryReader binaryReader = new System.IO.BinaryReader(new System.IO.MemoryStream(buffer, index, buffer.Length - index));
-
-            try
-            {
-                if (binaryReader.PeekChar() == 67)
-                {
-                    binaryReader.ReadChar();
-                    Int16 m_id = binaryReader.ReadInt16();
-                }
-                else
-                {
-                    effectData.targets = (SpellTargetType)binaryReader.ReadInt32();
-                    effectData.id = binaryReader.ReadInt16();
-                    effectData.duration = binaryReader.ReadInt32();
-                    effectData.delay = binaryReader.ReadInt32();
-                    effectData.random = binaryReader.ReadInt32();
-                    effectData.group = binaryReader.ReadInt32();
-                    effectData.modificator = binaryReader.ReadInt32();
-                    effectData.trigger = binaryReader.ReadBoolean();
-                    effectData.hidden = binaryReader.ReadBoolean();
-                    string rawZone = binaryReader.ReadString();
-                    effectData.rawZone = rawZone;
-                    if (string.IsNullOrEmpty(rawZone))
-                    {
-                        MessageBox.Show("Zone normalement inaccessible, merci de contacter le codeur");
-                        effectData.zoneShape = 0;
-                        effectData.zoneSize = 0;
-                        effectData.zoneMinSize = 0;
-                    }
-                    else
-                    {
-                        SpellShapeEnum zoneShape = (SpellShapeEnum)rawZone[0];
-                        byte zoneSize = 0;
-                        byte zoneMinSize = 0;
-                        int num = rawZone.IndexOf(',');
-                        try
-                        {
-                            if (num == -1 && rawZone.Length > 1)
-                            {
-                                zoneSize = byte.Parse(rawZone.Remove(0, 1));
-                            }
-                            else
-                            {
-                                if (rawZone.Length > 1)
-                                {
-                                    zoneSize = byte.Parse(rawZone.Substring(1, num - 1));
-                                    zoneMinSize = byte.Parse(rawZone.Remove(0, num + 1));
-                                }
-                            }
-                        }
-                        catch (System.Exception)
-                        {
-                            MessageBox.Show("ParseRawZone() => Cannot parse {0}", rawZone);
-                        }
-                        effectData.zoneShape = zoneShape;
-                        effectData.zoneSize = (uint)zoneSize;
-                        effectData.zoneMinSize = (uint)zoneMinSize;
-                    }
-                }
-            }
-            catch
-            {
-                MessageBox.Show("Control de validité a échoué.\nProbablement la valeur Target est erroné.\nVeuillez réctifier.");
-                effectData.targets = (SpellTargetType)binaryReader.ReadInt32();
-                effectData.id = binaryReader.ReadInt16();
-                effectData.duration = binaryReader.ReadInt32();
-                effectData.delay = binaryReader.ReadInt32();
-                effectData.random = binaryReader.ReadInt32();
-                effectData.group = binaryReader.ReadInt32();
-                effectData.modificator = binaryReader.ReadInt32();
-                effectData.trigger = binaryReader.ReadBoolean();
-                effectData.hidden = binaryReader.ReadBoolean();
-                string rawZone = binaryReader.ReadString();
-                if(rawZone.Length > 0)
-                {
-                    if(rawZone[0] == '�')
-                    {
-                        rawZone = rawZone.Substring(1, rawZone.Length - 1);
-                    }
-                }
-                effectData.rawZone = rawZone;
-                if (string.IsNullOrEmpty(rawZone))
-                {
-                    MessageBox.Show("Zone normalement inaccessible, merci de contacter le codeur");
-                    effectData.zoneShape = 0;
-                    effectData.zoneSize = 0;
-                    effectData.zoneMinSize = 0;
-                }
-                else
-                {
-                    SpellShapeEnum zoneShape = (SpellShapeEnum)rawZone[0];
-                    byte zoneSize = 0;
-                    byte zoneMinSize = 0;
-                    int num = rawZone.IndexOf(',');
-                    try
-                    {
-                        if (num == -1 && rawZone.Length > 1)
-                        {
-                            zoneSize = byte.Parse(rawZone.Remove(0, 1));
-                        }
-                        else
-                        {
-                            if (rawZone.Length > 1)
-                            {
-                                zoneSize = byte.Parse(rawZone.Substring(1, num - 1));
-                                zoneMinSize = byte.Parse(rawZone.Remove(0, num + 1));
-                            }
-                        }
-                    }
-                    catch (System.Exception)
-                    {
-                        MessageBox.Show("ParseRawZone() => Cannot parse {0}", rawZone);
-                    }
-                    effectData.zoneShape = zoneShape;
-                    effectData.zoneSize = (uint)zoneSize;
-                    effectData.zoneMinSize = (uint)zoneMinSize;
-                }
-            }
-            effectData.value = binaryReader.ReadInt16();
-
-            effectData.dicenum = binaryReader.ReadInt16();
-            effectData.diceface = binaryReader.ReadInt16();
-
-            index += (int)binaryReader.BaseStream.Position;
-
-            return effectData;
-        }
 
         public static byte[] FromHex(string hex)
         {
@@ -1363,8 +1155,8 @@ namespace SpellEffect
                 mysqlCon.reader = mysqlCon.cmd.ExecuteReader();
                 mysqlCon.cmd.Parameters.Remove(fileContentParameter);
                 mysqlCon.reader.Close();
-                DeserializeEffects();
-                MessageBox.Show("Modifié avec succèe");
+                EffectManager.DeserializeEffects(buffer);
+                MessageBox.Show("Modifié avec succèes");
 
             }
             catch (Exception ex)
@@ -1375,103 +1167,7 @@ namespace SpellEffect
         /// <summary>
         /// /////////////////////////////////////////////////////////////////
         /// </summary>
-        BigEndianWriter ber = new BigEndianWriter(new System.IO.MemoryStream());
-        EffectData effectData;
-        public void Serialize(List<EffectData> effectDataList)
-        {
-            for (int cnt = 0; cnt < effectDataList.Count; cnt++)
-            {
-                effectData = effectDataList[cnt];
-                ber = new BigEndianWriter(new System.IO.MemoryStream());
 
-                int effectBase = 0;
-
-                switch (effectData.effectBase)
-                {
-                    case "EffectBase" :
-                        effectBase = 1;
-                        break;
-                    case "EffectCreature":
-                        effectBase = 2;
-                        break;
-                    case "EffectDate":
-                        effectBase = 3;
-                        break;
-                    case "EffectDice":
-                        effectBase = 4;
-                        break;
-                    case "EffectDuration":
-                        effectBase = 5;
-                        break;
-                    case "EffectInteger":
-                        effectBase = 6;
-                        break;
-                    case "EffectLadder":
-                        effectBase = 7;
-                        break;
-                    case "EffectMinMax":
-                        effectBase = 8;
-                        break;
-                    case "EffectMount":
-                        effectBase = 9;
-                        break;
-                    case "EffectString":
-                        effectBase = 10;
-                        break;
-                }  
-
-                ber.WriteByte((byte)effectBase);
-
-                this.InternalSerialize();
-                byte[] result = ((System.IO.MemoryStream)ber.BaseStream).ToArray();
-                effectData.full_buffer = result;
-                string trimResult = BitConverter.ToString(result).Replace("-", string.Empty);
-                effectData.full_HexByte = trimResult;
-            }
-        }
-        protected virtual void InternalSerialize()
-        {
-            if (effectData.targets == SpellTargetType.NONE && effectData.duration == 0 && effectData.delay == 0 && effectData.random == 0 && effectData.group == 0 && effectData.modificator == 0 && !effectData.trigger && !effectData.hidden && effectData.zoneSize == 0u && effectData.zoneShape == (SpellShapeEnum)0)
-            {
-                ber.WriteChar('C');
-                ber.WriteShort(effectData.id);
-            }
-            else
-            {
-                ber.WriteInt((int)effectData.targets);
-                ber.WriteShort(effectData.id);
-                ber.WriteInt(effectData.duration);
-                ber.WriteInt(effectData.delay);
-                ber.WriteInt(effectData.random);
-                ber.WriteInt(effectData.group);
-                ber.WriteInt(effectData.modificator);
-                ber.WriteBoolean(effectData.trigger);
-                ber.WriteBoolean(effectData.hidden);
-                
-                string rawZone = BuildRawZone();
-                if (rawZone == null)
-                    ber.WriteUTF(string.Empty);
-                else
-                    ber.WriteUTF(rawZone);
-
-                ber.WriteShort(effectData.value);
-                ber.WriteShort(effectData.dicenum);
-                ber.WriteShort(effectData.diceface);
-            }
-        }
-
-        protected string BuildRawZone()
-        {
-            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
-            stringBuilder.Append((char)effectData.zoneShape);
-            stringBuilder.Append(effectData.zoneSize);
-            if (effectData.zoneMinSize > 0u)
-            {
-                stringBuilder.Append(",");
-                stringBuilder.Append(effectData.zoneMinSize);
-            }
-            return stringBuilder.ToString();
-        }
         /// <summary>
         /// //////////////////////////////////////////////////////////////////////////////////////
         /// </summary>
@@ -1525,7 +1221,7 @@ namespace SpellEffect
                     MessageBox.Show("Impossible de convertir la valeur duration :'" + (DurationTB[0] as TextBox).Text + "' en un entier numérique valide");
                     return;
                 }
-                effectDataList[cnt].duration = DurationTBValue;
+                effectDataList[cnt].Duration = DurationTBValue;
                 /////////////////////////////////////////////////////////////////////////
 
                 /////////////////////////////// DelayTB /////////////////////////////////////
@@ -1551,7 +1247,7 @@ namespace SpellEffect
                     MessageBox.Show("Impossible de convertir la valeur Delay :'" + (DelayTB[0] as TextBox).Text + "' en un entier numérique valide");
                     return;
                 }
-                effectDataList[cnt].delay = DelayTBValue;
+                effectDataList[cnt].Delay = DelayTBValue;
                 /////////////////////////////////////////////////////////////////////////
 
                 /////////////////////////////// RandomTB /////////////////////////////////////
@@ -1577,7 +1273,7 @@ namespace SpellEffect
                     MessageBox.Show("Impossible de convertir la valeur Random :'" + (RandomTB[0] as TextBox).Text + "' en un entier numérique valide");
                     return;
                 }
-                effectDataList[cnt].random = RandomTBValue;
+                effectDataList[cnt].Random = RandomTBValue;
                 /////////////////////////////////////////////////////////////////////////
 
                 /////////////////////////////// GroupTB /////////////////////////////////////
@@ -1603,7 +1299,7 @@ namespace SpellEffect
                     MessageBox.Show("Impossible de convertir la valeur Group :'" + (GroupTB[0] as TextBox).Text + "' en un entier numérique valide");
                     return;
                 }
-                effectDataList[cnt].group = GroupTBValue;
+                effectDataList[cnt].Group = GroupTBValue;
                 /////////////////////////////////////////////////////////////////////////
 
                 /////////////////////////////// ModificatorTB /////////////////////////////////////
@@ -1629,7 +1325,7 @@ namespace SpellEffect
                     MessageBox.Show("Impossible de convertir la valeur Modificator :'" + (ModificatorTB[0] as TextBox).Text + "' en un entier numérique valide");
                     return;
                 }
-                effectDataList[cnt].modificator = ModificatorTBValue;
+                effectDataList[cnt].Modificator = ModificatorTBValue;
                 /////////////////////////////////////////////////////////////////////////
 
                 /////////////////////////////// TriggerTB /////////////////////////////////////
@@ -1655,7 +1351,7 @@ namespace SpellEffect
                     MessageBox.Show("Impossible de convertir la valeur TriggerTB :'" + (TriggerTB[0] as TextBox).Text + "' en un boolean logique valide");
                     return;
                 }
-                effectDataList[cnt].trigger = TriggerTBValue;
+                effectDataList[cnt].Trigger = TriggerTBValue;
                 /////////////////////////////////////////////////////////////////////////
 
                 /////////////////////////////// HiddenTB /////////////////////////////////////
@@ -1681,7 +1377,7 @@ namespace SpellEffect
                     MessageBox.Show("Impossible de convertir la valeur HiddenTB :'" + (HiddenTB[0] as TextBox).Text + "' en un boolean logique valide");
                     return;
                 }
-                effectDataList[cnt].hidden = HiddenTBValue;
+                effectDataList[cnt].Hidden = HiddenTBValue;
                 /////////////////////////////////////////////////////////////////////////
 
                 /////////////////////////////// ZoneShapeCB /////////////////////////////////////
@@ -1703,7 +1399,7 @@ namespace SpellEffect
                 }
                 string ZoneShapeCBValue = (ZoneShapeCB[0] as ComboBox).SelectedItem.ToString();
 
-                effectDataList[cnt].zoneShape = (SpellShapeEnum)Enum.Parse(typeof(SpellShapeEnum), ZoneShapeCBValue, true);
+                effectDataList[cnt].ZoneShape = (SpellShapeEnum)Enum.Parse(typeof(SpellShapeEnum), ZoneShapeCBValue, true);
                 /////////////////////////////////////////////////////////////////////////
 
                 /////////////////////////////// ZoneSizeTB /////////////////////////////////////
@@ -1729,7 +1425,7 @@ namespace SpellEffect
                     MessageBox.Show("Impossible de convertir la valeur ZoneSizeTB :'" + (ZoneSizeTB[0] as TextBox).Text + "' en un entier numérique valide");
                     return;
                 }
-                effectDataList[cnt].zoneSize = ZoneSizeTBValue;
+                effectDataList[cnt].ZoneSize = ZoneSizeTBValue;
                 /////////////////////////////////////////////////////////////////////////
 
                 /////////////////////////////// ZoneMinSizeTB /////////////////////////////////////
@@ -1755,7 +1451,7 @@ namespace SpellEffect
                     MessageBox.Show("Impossible de convertir la valeur ZoneMinSizeTB :'" + (ZoneMinSizeTB[0] as TextBox).Text + "' en un entier numérique valide");
                     return;
                 }
-                effectDataList[cnt].zoneMinSize = ZoneMinSizeTBValue;
+                effectDataList[cnt].ZoneMinSize = ZoneMinSizeTBValue;
                 /////////////////////////////////////////////////////////////////////////
 
                 /////////////////////////////// ValueTB /////////////////////////////////////
@@ -1781,7 +1477,8 @@ namespace SpellEffect
                     MessageBox.Show("Impossible de convertir la valeur ValueTB :'" + (ValueTB[0] as TextBox).Text + "' en un entier numérique valide");
                     return;
                 }
-                effectDataList[cnt].value = ValueTBValue;
+                if(effectDataList[cnt] is EffectInteger)
+                    (effectDataList[cnt] as EffectInteger).Value = ValueTBValue;
                 /////////////////////////////////////////////////////////////////////////
 
                 /////////////////////////////// ValueTB /////////////////////////////////////
@@ -1807,7 +1504,10 @@ namespace SpellEffect
                     MessageBox.Show("Impossible de convertir la valeur DiceNumTB :'" + (DiceNumTB[0] as TextBox).Text + "' en un entier numérique valide");
                     return;
                 }
-                effectDataList[cnt].dicenum = DiceNumTBValue;
+                if (effectDataList[cnt] is EffectDice)
+                {
+                    (effectDataList[cnt] as EffectDice).DiceNum = DiceNumTBValue;
+                }
                 /////////////////////////////////////////////////////////////////////////
 
                 /////////////////////////////// ValueTB /////////////////////////////////////
@@ -1833,31 +1533,21 @@ namespace SpellEffect
                     MessageBox.Show("Impossible de convertir la valeur DiceFaceTB :'" + (DiceFaceTB[0] as TextBox).Text + "' en un entier numérique valide");
                     return;
                 }
-                effectDataList[cnt].diceface = DiceFaceTBValue;
+                if (effectDataList[cnt] is EffectDice)
+                {
+                    (effectDataList[cnt] as EffectDice).DiceFace = DiceFaceTBValue;
+                }
                 /////////////////////////////////////////////////////////////////////////
             }
 
             // serialisation
-            Serialize(effectDataList);
-            List<byte[]> buffer = new List<byte[]>();
-            int length = 0;
+            var SerializedEffects = EffectManager.SerializeEffects(effectDataList);
+            string trimResult = BitConverter.ToString(SerializedEffects).Replace("-", string.Empty);
 
-            for (int cnt = 0; cnt < effectDataList.Count; cnt++)
-            {
-                buffer.Add(effectDataList[cnt].full_buffer);
-                length += effectDataList[cnt].full_buffer.Length;
-            }
-
-            byte[] result = new byte[length];
-
-            for (int cnt = 0; cnt < effectDataList.Count; cnt++)
-                effectDataList[cnt].full_buffer.CopyTo(result, cnt * effectDataList[cnt].full_buffer.Length);
-            string trimResult = BitConverter.ToString(result).Replace("-", string.Empty);
-            byte[] hexToStr = FromHex(trimResult);
 
             mysqlCon.cmd.CommandText = "update " + Form1.spells_levels + " set " + effectBinType + " = ?hexToStr where Id = '" + Id_row + "'";
-            MySqlParameter fileContentParameter = new MySqlParameter("?hexToStr", MySqlDbType.Blob, hexToStr.Length);
-            fileContentParameter.Value = hexToStr;
+            MySqlParameter fileContentParameter = new MySqlParameter("?hexToStr", MySqlDbType.Blob, SerializedEffects.Length);
+            fileContentParameter.Value = SerializedEffects;
             mysqlCon.cmd.Parameters.Add(fileContentParameter);
             mysqlCon.reader = mysqlCon.cmd.ExecuteReader();
             mysqlCon.cmd.Parameters.Remove(fileContentParameter);

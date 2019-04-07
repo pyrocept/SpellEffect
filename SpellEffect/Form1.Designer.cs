@@ -30,9 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.addNewClientVersionDirectory = new System.Windows.Forms.PictureBox();
-            this.clientVersionCB = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.connection = new System.Windows.Forms.Button();
             this.Ip = new System.Windows.Forms.TextBox();
@@ -45,14 +42,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.addNewClientVersionDirectory)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.addNewClientVersionDirectory);
-            this.panel1.Controls.Add(this.clientVersionCB);
-            this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.connection);
             this.panel1.Controls.Add(this.Ip);
@@ -66,40 +59,8 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(7, 5);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(308, 215);
+            this.panel1.Size = new System.Drawing.Size(308, 182);
             this.panel1.TabIndex = 0;
-            // 
-            // addNewClientVersionDirectory
-            // 
-            this.addNewClientVersionDirectory.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.addNewClientVersionDirectory.Image = global::SpellEffect.Properties.Resources.addNewClientVersionSprites;
-            this.addNewClientVersionDirectory.Location = new System.Drawing.Point(278, 149);
-            this.addNewClientVersionDirectory.Name = "addNewClientVersionDirectory";
-            this.addNewClientVersionDirectory.Size = new System.Drawing.Size(15, 14);
-            this.addNewClientVersionDirectory.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.addNewClientVersionDirectory.TabIndex = 13;
-            this.addNewClientVersionDirectory.TabStop = false;
-            this.addNewClientVersionDirectory.Click += new System.EventHandler(this.addNewClientVersionDirectory_Click);
-            // 
-            // clientVersionCB
-            // 
-            this.clientVersionCB.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.clientVersionCB.FormattingEnabled = true;
-            this.clientVersionCB.Items.AddRange(new object[] {
-            "Par défaut (2.10)"});
-            this.clientVersionCB.Location = new System.Drawing.Point(155, 142);
-            this.clientVersionCB.Name = "clientVersionCB";
-            this.clientVersionCB.Size = new System.Drawing.Size(112, 21);
-            this.clientVersionCB.TabIndex = 12;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(18, 145);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(101, 13);
-            this.label7.TabIndex = 11;
-            this.label7.Text = "Version client Dofus";
             // 
             // label6
             // 
@@ -107,16 +68,16 @@
             this.label6.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.MediumBlue;
-            this.label6.Location = new System.Drawing.Point(189, 196);
+            this.label6.Location = new System.Drawing.Point(56, 164);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(116, 13);
+            this.label6.Size = new System.Drawing.Size(245, 13);
             this.label6.TabIndex = 10;
-            this.label6.Text = "By : Th3-m0RpH3R";
+            this.label6.Text = "Créé par melharfi, mis á jour par Pyrocept.";
             this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // connection
             // 
-            this.connection.Location = new System.Drawing.Point(107, 175);
+            this.connection.Location = new System.Drawing.Point(107, 140);
             this.connection.Name = "connection";
             this.connection.Size = new System.Drawing.Size(75, 23);
             this.connection.TabIndex = 9;
@@ -197,17 +158,17 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Green;
-            this.label1.Location = new System.Drawing.Point(60, 12);
+            this.label1.Location = new System.Drawing.Point(54, 12);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(193, 16);
+            this.label1.Size = new System.Drawing.Size(210, 16);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Identifiant Base de donnée";
+            this.label1.Text = "Connection base de données";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(320, 229);
+            this.ClientSize = new System.Drawing.Size(320, 191);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -217,7 +178,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.addNewClientVersionDirectory)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -236,9 +196,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox clientVersionCB;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.PictureBox addNewClientVersionDirectory;
     }
 }
 

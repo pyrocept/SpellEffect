@@ -5,25 +5,32 @@ namespace SpellEffect
     public enum SpellTargetType
     {
         NONE = 0,
-        SELF = 1,
-        ALLY_1 = 2,
-        ALLY_2 = 4,
-        ALLY_SUMMONS = 8,
-        ALLY_STATIC_SUMMONS = 16,
-        ALLY_3 = 32,
-        ALLY_4 = 64,
-        ALLY_5 = 128,
-        ALLY_ALL = 254,
-        ENNEMY_1 = 256,
-        ENNEMY_2 = 512,
-        ENNEMY_SUMMONS = 1024,
-        ENNEMY_STATIC_SUMMONS = 2048,
-        ENNEMY_3 = 4096,
-        ENNEMY_4 = 8192,
-        ENNEMY_5 = 16384,
-        ENEMY_ALL = 32512,
-        ALL = 32767,
-        ALL_SUMMONS = 3096,
-        ONLY_SELF = 32768
+        SELF_ONLY = 0x80000, // C
+        SELF = 0x1, // c
+
+        ALLY_MONSTER_SUMMON = 0x2, // s
+        ALLY_SUMMON = 0x4, // j
+        ALLY_NON_MONSTER_SUMMON = 0x8, // i
+        ALLY_COMPANION = 0x10, // d
+        ALLY_MONSTER = 0x20, // m
+        ALLY_SUMMONER = 0x40, // h
+        ALLY_PLAYER = 0x80, // l
+
+        ALLY_ALL_EXCEPT_SELF = ALLY_MONSTER_SUMMON | ALLY_SUMMON | ALLY_NON_MONSTER_SUMMON |
+            ALLY_COMPANION | ALLY_COMPANION | ALLY_MONSTER | ALLY_PLAYER, // g
+
+        ALLY_ALL = SELF | ALLY_MONSTER_SUMMON | ALLY_SUMMON | ALLY_NON_MONSTER_SUMMON |
+            ALLY_COMPANION | ALLY_COMPANION | ALLY_MONSTER | ALLY_PLAYER, // a
+
+        ENEMY_MONSTER_SUMMON = 0x100, // S
+        ENEMY_SUMMON = 0x200, // J
+        ENEMY_NON_MONSTER_SUMMON = 0x400, // I
+        ENEMY_COMPANION = 0x800, // D
+        ENEMY_MONSTER = 0x1000, // M
+        ENEMY_UNKN_1 = 0x2000, // H
+        ENEMY_PLAYER = 0x4000, // L
+
+        ENEMY_ALL = ENEMY_MONSTER_SUMMON | ENEMY_SUMMON | ENEMY_NON_MONSTER_SUMMON |
+            ENEMY_COMPANION | ENEMY_COMPANION | ENEMY_MONSTER | ENEMY_UNKN_1 | ENEMY_PLAYER // A
     }
 }

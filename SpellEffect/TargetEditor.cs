@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using MySql.Data.MySqlClient;
+using SpellEffect.EffectInstances;
 
 namespace SpellEffect
 {
     public partial class TargetEditor : Form
     {
-        EffectData effectData;
+        EffectBase effectData;
         MySqlConn mysqlCon;
 
         public TargetEditor()
@@ -22,16 +23,17 @@ namespace SpellEffect
             InitializeComponent();
         }
 
-        public TargetEditor(ref EffectData _effectData, MySqlConn _mysqlconn)
+        public TargetEditor(ref EffectBase _effectData, MySqlConn _mysqlconn)
         {
             InitializeComponent();
             mysqlCon = _mysqlconn;
             effectData = _effectData;
-            ChangeTargetTB.Text = ((uint)effectData.targets).ToString();
-            CurrentValueTB.Text = ((uint)effectData.targets).ToString();
+            ChangeTargetTB.Text = ((uint)effectData.Targets.FirstOrDefault()).ToString();
+            CurrentValueTB.Text = ((uint)effectData.Targets.FirstOrDefault()).ToString();
 
             foreach (SpellTargetType stt in Enum.GetValues(typeof(SpellTargetType)))
-                if (effectData.targets.HasFlag(stt))
+                foreach(var effTarget in effectData.Targets)
+                if (effTarget.HasFlag(stt))
                     CurrentValueLB.Items.Add(stt.ToString());
 
             // AllEnumValuesLB
@@ -62,7 +64,7 @@ namespace SpellEffect
                 return;
             }
 
-            effectData.targets = stt2;
+            effectData.Targets = new List<SpellTargetType>() { stt2 };
             this.Close();
         }
 
@@ -89,7 +91,7 @@ namespace SpellEffect
                         stt2 |= stt;
 
                 CurrentValueTB.Text = ((uint)stt2).ToString();
-                effectData.targets = stt2;
+                effectData.Targets = new List<SpellTargetType>() { stt2 };
 
                 AllEnumValuesLB.SelectedIndex = AllEnumValuesLB.Items.Count - 1;
             }
@@ -112,7 +114,7 @@ namespace SpellEffect
                         stt2 |= stt;
 
                 CurrentValueTB.Text = ((uint)stt2).ToString();
-                effectData.targets = stt2;
+                effectData.Targets = new List<SpellTargetType>() { stt2 };
 
                 CurrentValueLB.SelectedIndex = CurrentValueLB.Items.Count - 1;
             }
@@ -131,7 +133,7 @@ namespace SpellEffect
             }
 
             if (parsed)
-                effectData.targets = (SpellTargetType)targetValue;
+                effectData.Targets = new List<SpellTargetType>() { (SpellTargetType)targetValue };
             else
             {
                 MessageBox.Show("Impossible de déterminer la valeur Target selon la valeur " + ChangeTargetTB.Text);

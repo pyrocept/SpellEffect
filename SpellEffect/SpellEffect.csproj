@@ -98,12 +98,6 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
-    <Compile Include="addNewClientVersion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="addNewClientVersion.Designer.cs">
-      <DependentUpon>addNewClientVersion.cs</DependentUpon>
-    </Compile>
     <Compile Include="BigEndianWriter.cs" />
     <Compile Include="EffectBin.cs">
       <SubType>Form</SubType>
@@ -111,19 +105,23 @@
     <Compile Include="EffectBin.Designer.cs">
       <DependentUpon>EffectBin.cs</DependentUpon>
     </Compile>
-    <Compile Include="EffectData.cs" />
+    <Compile Include="EffectInstances\EffectBase.cs" />
+    <Compile Include="EffectInstances\EffectCreature.cs" />
+    <Compile Include="EffectInstances\EffectDate.cs" />
+    <Compile Include="EffectInstances\EffectDice.cs" />
+    <Compile Include="EffectInstances\EffectDuration.cs" />
+    <Compile Include="EffectInstances\EffectInteger.cs" />
+    <Compile Include="EffectInstances\EffectLadder.cs" />
+    <Compile Include="EffectInstances\EffectManager.cs" />
+    <Compile Include="EffectInstances\EffectMinMax.cs" />
+    <Compile Include="EffectInstances\EffectMount.cs" />
+    <Compile Include="EffectInstances\EffectString.cs" />
     <Compile Include="EffectsEnum.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="howTo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="howTo.Designer.cs">
-      <DependentUpon>howTo.cs</DependentUpon>
     </Compile>
     <Compile Include="MySqlConn.cs" />
     <Compile Include="Program.cs" />
@@ -138,12 +136,6 @@
     </Compile>
     <Compile Include="SelectionTable.Designer.cs">
       <DependentUpon>SelectionTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SelectSpellFromClasses.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SelectSpellFromClasses.Designer.cs">
-      <DependentUpon>SelectSpellFromClasses.cs</DependentUpon>
     </Compile>
     <Compile Include="SelectSpellLevel.cs">
       <SubType>Form</SubType>
@@ -169,17 +161,11 @@
       <DependentUpon>About.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="addNewClientVersion.resx">
-      <DependentUpon>addNewClientVersion.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="EffectBin.resx">
       <DependentUpon>EffectBin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="howTo.resx">
-      <DependentUpon>howTo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -188,9 +174,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SelectionTable.resx">
       <DependentUpon>SelectionTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SelectSpellFromClasses.resx">
-      <DependentUpon>SelectSpellFromClasses.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SelectSpellLevel.resx">
       <DependentUpon>SelectSpellLevel.cs</DependentUpon>
@@ -212,71 +195,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="SpellEffect_CléTemporaire.pfx" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\Edit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\Rightarrow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\Leftarrow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\del.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\sram.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\steamer.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\xelor.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\zobal.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\cra.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\ecaflip.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\eniripsa.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\enutrof.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\feca.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\iop.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\osa.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\panda.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\roublard.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\sacrieur.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="bin\Debug\sadida.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="159.ico" />
     <None Include="Resources\howToIopWrath.gif" />
     <None Include="Resources\howToCopyDebugedRawData.gif" />
-    <None Include="bin\Debug\howToCopyDebugedRawData.gif" />
-    <None Include="bin\Debug\howToIopWrath.gif" />
     <None Include="Resources\sadida.png" />
     <None Include="Resources\sacrieur.png" />
     <None Include="Resources\roublard.png" />
@@ -299,8 +222,6 @@
     <None Include="Resources\xelor.png" />
     <None Include="Resources\steamer.png" />
     <None Include="Resources\sram.png" />
-    <None Include="bin\Debug\howToAddClientVersion.gif" />
-    <None Include="bin\Debug\addNewClientVersionSprites.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -314,7 +235,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

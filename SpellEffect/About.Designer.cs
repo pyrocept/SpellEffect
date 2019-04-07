@@ -41,9 +41,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 33);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(158, 13);
+            this.label1.Size = new System.Drawing.Size(236, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Développé par : Th3-m0RpH3R";
+            this.label1.Text = "Développé par : melharf, mis á jour par Pyrocept.";
             // 
             // label2
             // 
@@ -59,10 +59,10 @@
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Location = new System.Drawing.Point(12, 76);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(244, 13);
+            this.linkLabel1.Size = new System.Drawing.Size(197, 13);
             this.linkLabel1.TabIndex = 2;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "https://www.github.com/the-morpher/SpellEffects";
+            this.linkLabel1.Text = "https://github.com/pyrocept/SpellEffect";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // label3
@@ -70,9 +70,10 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 107);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(346, 104);
+            this.label3.Size = new System.Drawing.Size(258, 26);
             this.label3.TabIndex = 3;
-            this.label3.Text = resources.GetString("label3.Text");
+            this.label3.Text = "Utilité : cet outil permet de modifier les effets des sorts\r\nde la base de donnée" +
+    "s du projet Stump de Bouh2.";
             // 
             // label4
             // 
@@ -87,7 +88,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(361, 225);
+            this.ClientSize = new System.Drawing.Size(276, 140);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.linkLabel1);

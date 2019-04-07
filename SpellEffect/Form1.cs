@@ -26,29 +26,14 @@ namespace SpellEffect
         public Form1()
         {
             InitializeComponent();
-            reload();
-            if (clientVersionCB.Items.Count > 0)
-                clientVersionCB.SelectedIndex = 0;
-
-            ToolTip1.SetToolTip(addNewClientVersionDirectory, "Ajouter une nouvelle version du client Dofus");
         }
 
-        private void reload()
-        {
-            clientVersionCB.Items.Clear();
-            clientVersionCB.Items.Add("Par défaut (2.10)");
-            // récupération des liste de client supporté
-            foreach (string zip in Directory.GetFiles("clientVersion"))
-                if (zip.Length > 4 && zip.Substring(zip.Length - 4, 4) == ".zip" && zip != "clientVersion\\2.10.zip")
-                    clientVersionCB.Items.Add(zip.Substring(zip.LastIndexOf("\\") + 1, zip.Length - zip.LastIndexOf("\\") - 5));
-            clientVersionCB.SelectedIndex = 0;
-        }
 
         private void connection_Click(object sender, EventArgs e)
         {
             if (username.Text == "")
             {
-                MessageBox.Show("Entrer le d'utilisateur");
+                MessageBox.Show("Entrer le nom d'utilisateur");
                 return;
             }
             else if (DB.Text == "")
@@ -62,11 +47,6 @@ namespace SpellEffect
                 return;
             }
 
-            if(clientVersionCB.Items.Count == 0)
-            {
-                MessageBox.Show("La base qui contiens les sorts des differents clients Dofus est vide.\nMerci de vérifier le répértoir 'clientVersion' qui dois contenir un répertoire pour chaque version comme 2.10, 2.29 ... et chaque répertoire dois contenir tous les sorts du client en question.\n pour récuperer les sorts il faut les extraires depuis le client");
-                return;
-            }
 
             MySqlConn mysqlCon = new MySqlConn(username.Text, Password.Text, DB.Text, Ip.Text);
             
@@ -76,7 +56,6 @@ namespace SpellEffect
                 passwordDB = Password.Text;
                 adresseDB = Ip.Text;
                 DBName = DB.Text;
-                clientVersion = clientVersionCB.SelectedItem.ToString() == "Par défaut (2.10)" ? "2.10" : clientVersionCB.SelectedItem.ToString();
                 this.Hide();
 
                 SpellEffect spellEffect = new SpellEffect(mysqlCon);
@@ -119,18 +98,5 @@ namespace SpellEffect
             this.Enabled = true;
         }
 
-        private void addNewClientVersionDirectory_Click(object sender, EventArgs e)
-        {
-            this.Enabled = false;
-            addNewClientVersion ancv = new addNewClientVersion();
-            ancv.Show();
-            ancv.FormClosed += Ancv_FormClosed;
-        }
-
-        private void Ancv_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            this.Enabled = true;
-            reload();
-        }
     }
 }
