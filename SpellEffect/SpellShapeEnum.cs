@@ -17,7 +17,7 @@ namespace SpellEffect
         O = 79,
         Q = 81,
         V = 86,
-        W,
+        W = 87,
         plus = 43,
         sharp = 35,
         star = 42,
@@ -26,7 +26,13 @@ namespace SpellEffect
         G = 71,
         I = 73,
         U = 85,
-        A = 65
+        A = 65,
+        a = 97,
+        B = 66,
+        Z = 90,
+        semicolon = 59,
+        empty = 32,
+        l = 108,
     }
 
 }
